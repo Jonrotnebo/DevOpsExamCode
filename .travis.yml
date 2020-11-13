@@ -4,9 +4,9 @@ services:
 env:
   global:
     - GCP_PROJECT_ID=devopsexam-295512
-    - IMAGE=gcr.io/devopsexam-295512/devopsexamcode
+    - IMAGE=gcr.io/devopsexam-295512/devops-exam-code
     - CLOUD_RUN_SERVICE=devops
-    - CLOUD_RUN_REGION=us-central1
+    - CLOUD_RUN_REGION=europe-north1
     - CLOUDSDK_CORE_DISABLE_PROMPTS=1
     - secure: qBvc1uDuKShO/BFt0tVSytA4pl2/vKfg13FfHmHTfSlG+6oEvjRSFTsTB64GfJFyu6zaECx6QgTHaHIUjq7j1lsHSdlfwTSZX/ZjvPZbO1mTARoWH03dx/yOvnhmHJWaFBamkaE/afHHXEaxA2UZiAvC1s0+nHXc/RRYLGQ7VU7eStYTkmV0Y4StD5j5GCcjMPebk6no8jHjJlBhwzitTDsEJmKpcTyUM3FAjAW6Z60Wl+b7SdINUlUHLyE15jPaLj4axtsqd5Cw+2cffDQ2hQ6hc+mNyog364jv0vOZSG8JpMENmoNVckdBRgcnT7maZyP8Emb/HwAXGEdYcThg9/bOxF9RlDR9dOmEVcrxkPBpKNUHMz2dEY+XrObOj0WYucJ5gGtawXhrI2Gw/l3MYmbk0qJ7kdtGRJxcEMeeBqL3cOgrzr269pyQ/8/JbQL8hu994S73279PB8x7srRqBBBKnIlVzMY78pM1cWO0iu8XQT4f8BHtGfUrBJ4QocQAZ0Z4PKgCNzB+Lsd0g/mMXOebGJLBIyz8Xwf+D/sWA+dwGG6UNQ2gTUgh2IsSjcQEcqIK+zxLpMam/DJ3rRchKjDZVzNLGPe9JaTByJiOxCkaTuAjvJl+9ef06cUdKN9/zJ0G1P4J5htOsZ4dgQEtjxRyA1wMRPGei0iJAFWsMZ4=
 before_install:
