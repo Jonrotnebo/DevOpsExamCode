@@ -4,7 +4,7 @@ services:
 env:
   global:
     - GCP_PROJECT_ID=devopsexam-295512
-    - IMAGE=gcr.io/devopsexam-295512/devops-exam-code
+    - IMAGE=gcr.io/devopsexam-295512/devops-exam-code-pg
     - CLOUD_RUN_SERVICE=devops
     - CLOUD_RUN_REGION=europe-north1
     - CLOUDSDK_CORE_DISABLE_PROMPTS=1
