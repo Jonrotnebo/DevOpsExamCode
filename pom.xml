@@ -96,9 +96,8 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>${version.springboot}</version>
                 <configuration>
-                    <finalName>cards</finalName>
+                    <finalName>DevOpsExamCode</finalName>
                 </configuration>
             </plugin>
 
@@ -210,7 +209,6 @@
                 <artifactId>build-helper-maven-plugin</artifactId>
                 <version>3.0.0</version>
             </plugin>
-
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
