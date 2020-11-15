@@ -97,7 +97,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>${version.springboot}</version>
                 <configuration>
-                    <finalName>cards</finalName>
+                    <finalName>application</finalName>
                 </configuration>
             </plugin>
 
