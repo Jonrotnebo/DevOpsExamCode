@@ -3,6 +3,7 @@ package org.devops.cardsapi
 import org.devops.cardsapi.RestAPICards.Companion.LATEST
 import io.restassured.RestAssured
 import io.restassured.RestAssured.given
+import org.devops.Application
 import org.hamcrest.Matchers
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
