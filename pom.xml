@@ -7,6 +7,7 @@
     <groupId>org.example</groupId>
     <artifactId>DevOpsExamCode</artifactId>
     <version>1.0-SNAPSHOT</version>
+
     <packaging>jar</packaging>
 
     <properties>
@@ -97,7 +98,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>${version.springboot}</version>
                 <configuration>
-                    <finalName>application</finalName>
+                    <finalName>cards</finalName>
                 </configuration>
             </plugin>
 
@@ -221,20 +222,6 @@
                     <rerunFailingTestsCount>3</rerunFailingTestsCount>
                     <argLine>-Xms512m -Xmx2048m</argLine>
                 </configuration>
-            </plugin>
-
-            <plugin>
-                <!-- Need to create self-executable uber/fat jars -->
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>${version.springboot}</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>repackage</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
 
         </plugins>
