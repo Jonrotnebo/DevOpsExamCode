@@ -9,12 +9,8 @@ import springfox.documentation.service.ApiInfo
 import springfox.documentation.spi.DocumentationType
 import springfox.documentation.spring.web.plugins.Docket
 
-@SpringBootApplication(scanBasePackages = ["org.devops"])
+@SpringBootApplication()
 class Application {
-
-    fun main(args: Array<String>) {
-        SpringApplication.run(Application::class.java, *args)
-    }
 
     @Bean
     fun SwaggerApi(): Docket {
@@ -33,4 +29,8 @@ class Application {
                 .build()
     }
 
+}
+
+fun main(args: Array<String>) {
+    SpringApplication.run(Application::class.java, *args)
 }

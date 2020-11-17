@@ -28,17 +28,6 @@ class RestApiTest {
         RestAssured.port = port
         RestAssured.enableLoggingOfRequestAndResponseIfValidationFails()
     }
-/*
-    @Test
-    fun testGetImg() {
-        given().get("/api/cards/imgs/001-monster.svg")
-                .then()
-                .statusCode(200)
-                .contentType("image/svg+xml")
-                .header("cache-control", Matchers.`is`(Matchers.notNullValue()))
-    }
-
- */
 
     @Test
     fun testGetCollection() {
