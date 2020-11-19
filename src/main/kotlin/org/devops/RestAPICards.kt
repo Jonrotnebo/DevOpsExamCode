@@ -21,7 +21,7 @@ class RestAPICards() {
     }
     var cardsCreated = 0
 
-    val logger = LoggerFactory.getLogger(RestAPICards::class.java)
+    val logger = LoggerFactory.getLogger(RestAPICards::class.java.name)
 
     @Autowired
     private lateinit var meterRegistry: MeterRegistry
