@@ -1,12 +1,11 @@
 package org.devops
 
-import io.micrometer.core.instrument.Counter
 import io.micrometer.core.instrument.MeterRegistry
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
 import org.devops.cards.GameDto
 import org.devops.db.CardService
-import org.devops.db.Cards
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
@@ -20,7 +19,9 @@ class RestAPICards() {
     companion object{
         const val LATEST = "v1_000"
     }
-    var cardsCreated = 0;
+    var cardsCreated = 0
+
+    val logger = LoggerFactory.getLogger(RestAPICards::class.java)
 
     @Autowired
     private lateinit var meterRegistry: MeterRegistry
@@ -60,17 +61,22 @@ class RestAPICards() {
     @ApiOperation("Adding own Cards to a List")
     @PostMapping(path= ["/collection"], consumes = ["application/json"], produces = ["application/json"])
     fun createCard(@RequestBody dto: GameDto) : ResponseEntity<Void>{
-        if (dto.id == null || dto.name == null)
+        if (dto.id == null || dto.name == null) {
+            logger.error("create user, id or name is null.")
             return ResponseEntity.status(400).build()
+        }
 
         val ok = cardService.createNewCard(dto.id!!, dto.name!!)
+
         meterRegistry.counter("txcount", "name", dto.name).increment();
         meterRegistry.gauge("numberOfUsers", cardsCreated)
 
         if (!ok){
+            logger.error("Creation of user failed.")
             return ResponseEntity.status(400).build()
         } else{
             ++cardsCreated
+            logger.info("Create Card Sucsess")
             return ResponseEntity.status(201).build()
         }
 
