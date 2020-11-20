@@ -44,12 +44,12 @@ class RestAPICards(
     @GetMapping(path = ["/collection"])
     fun ListCards() : ResponseEntity<List<Cards>> {
 
-        val collection =  cardService.getAll()
+        val collection = cardService.getAll()
         getCounter.increment()
 
         logger.info("ListCards{} called. Returning cards. Returning : ${collection.count()}")
 
-        logger.info("Summary of bytes in return from. ${cardsSummary}")
+        logger.info("Number of calls to get. ${getCounter}")
         return ResponseEntity.status(200).body(collection.toList())
     }
 
