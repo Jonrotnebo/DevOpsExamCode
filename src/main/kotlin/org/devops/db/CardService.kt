@@ -26,6 +26,7 @@ class CardService(
 
     fun getAll() : MutableIterable<Cards> {
 
+
         return cardRepository.findAll()
     }
 

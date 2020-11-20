@@ -1,6 +1,7 @@
 package org.devops
 
 import io.micrometer.core.instrument.Counter
+import io.micrometer.core.instrument.DistributionSummary
 import io.micrometer.core.instrument.MeterRegistry
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
@@ -9,7 +10,6 @@ import org.devops.db.CardService
 import org.devops.db.Cards
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
@@ -27,6 +27,10 @@ class RestAPICards(
 
     private val createCounter = Counter.builder("count.create").description("Cards created").register(meterRegistry)
     private val getCounter = Counter.builder("count.get").description("get calls").register(meterRegistry)
+    private val cardsSummary = DistributionSummary.builder("response.size")
+            .description("Cards Destribution")
+            .baseUnit("byte")
+            .scale(100.0).register(meterRegistry)
 
 
     //@Autowired
@@ -43,29 +47,17 @@ class RestAPICards(
         val collection =  cardService.getAll()
         getCounter.increment()
 
+        logger.info("ListCards{} called. Returning cards. Returning : ${collection.count()}")
+
+        logger.info("Summary of bytes in return from. ${cardsSummary}")
         return ResponseEntity.status(200).body(collection.toList())
     }
-/*
-    @ApiOperation("Old-version endpoints. Will automatically redirect to most recent version")
-    @GetMapping(path = [
-        "/collection_v0_001",
-        "/collection_v0_002",
-        "/collection_v0_003"
-    ])
-    fun getOld() : ResponseEntity<Void> {
-
-        return ResponseEntity.status(301)
-                .location(URI.create("/api/cards/collection_$LATEST"))
-                .build()
-    }
-
- */
 
 
     @ApiOperation("Adding own Cards to a List")
     @PostMapping(path= ["/collection"], consumes = ["application/json"], produces = ["application/json"])
     fun createCard(@RequestBody dto: GameDto) : ResponseEntity<Cards>{
-        logger.debug("Created monster, in function: {}", createCounter.count())
+        logger.debug("Created user, in function: {}", createCounter.count())
         if (dto.id == null || dto.name == null) {
             logger.error("create user, id or name is null.")
             return ResponseEntity.status(400).build()
@@ -79,9 +71,8 @@ class RestAPICards(
             logger.error("Creation of user failed.")
             return ResponseEntity.status(400).build()
         } else{
-
             createCounter.increment()
-            logger.debug("Created monster after create: {}", createCounter.count())
+            logger.debug("Created monster after create: ${createCounter.count()}")
             logger.info("Create Card Sucsess.")
             return ResponseEntity.status(201).build()
         }
