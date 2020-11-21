@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
+import java.util.concurrent.TimeUnit
 
 
 @Api(value = "/cards", description = "Operation on the cards existing in the game")
@@ -30,15 +31,13 @@ class RestAPICards(
     private val createCounter = Counter.builder("count.create").description("Cards created").register(meterRegistry)
     private val getCounter = Counter.builder("count.get").description("get calls").register(meterRegistry)
     private val getTimerCards = Timer.builder("long.get.timer").description("Record Time of get function").tag("us", "listCards").register(meterRegistry)
+    private val createTimerCards = Timer.builder("long.get.timer").description("Record Time of create function").tag("us", "createCard").register(meterRegistry)
 
+    //Not in use.
     private val cardsSummary = DistributionSummary.builder("response.size")
             .description("Cards Destribution")
             .baseUnit("byte")
             .scale(100.0).register(meterRegistry)
-
-
-    //@Autowired
-    //private lateinit var meterRegistry: MeterRegistry
 
     @Autowired
     private lateinit var cardService: CardService
@@ -49,16 +48,14 @@ class RestAPICards(
     @Timed("listCards")
     fun ListCards() : ResponseEntity<List<Cards>> {
 
-        //val timerTask
         val collection = cardService.getAll()
 
-        //cardsSummary.record(collection.sumByDouble {  })
         getCounter.increment()
 
         logger.info("ListCards{} called. Returning cards. Returning: ${collection.count()} Cards")
 
-        //logger.info("List Cards Time: Returning timer ${getTimerCards.mean()}")
         logger.info("Number of calls to get. ${getCounter.count()}")
+        logger.info("Timed used to get cards: ${getTimerCards.mean(TimeUnit.SECONDS)}")
         return ResponseEntity.status(200).body(collection.toList())
     }
 
@@ -68,14 +65,12 @@ class RestAPICards(
     @Timed("createCard")
     fun createCard(@RequestBody dto: GameDto) : ResponseEntity<Cards>{
         logger.debug("Created user, in function: {}", createCounter.count())
-        if (dto.id == null || dto.name == null) {
+        if (dto.id == null || dto.name == null || dto.description == null) {
             logger.error("create user, id or name is null.")
             return ResponseEntity.status(400).build()
         }
 
-        val ok = cardService.createNewCard(dto.id!!, dto.name!!)
-
-        meterRegistry.counter("txcount", "name", dto.name).increment();
+        val ok = cardService.createNewCard(dto.id!!, dto.name!!, dto.description!!)
 
         if (!ok){
             logger.error("Creation of user failed.")
@@ -83,7 +78,7 @@ class RestAPICards(
         } else{
             createCounter.increment()
             logger.debug("Created monster after create: ${createCounter.count()} Creation calls")
-            logger.info("Create Card Sucsess.")
+            logger.info("Create Card Sucsess. ${createTimerCards.mean(TimeUnit.SECONDS)}")
             return ResponseEntity.status(201).build()
         }
 

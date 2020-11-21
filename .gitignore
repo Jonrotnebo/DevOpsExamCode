@@ -1,3 +1,5 @@
 # Project exclude paths
 /target/
 /google-key.json
+/influxdb/
+/influxdb.conf

@@ -5,8 +5,6 @@ import io.restassured.RestAssured.given
 import org.devops.Application
 import org.devops.db.CardRepository
 import org.devops.db.CardService
-import org.hamcrest.Matchers
-import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -50,7 +48,8 @@ class RestApiTest {
     fun testCreateCard() {
         val id = "foo"
         val name = "hei"
-        cardService.createNewCard(id, name)
+        val description = "Testing a mania card"
+        cardService.createNewCard(id = id, name = name, description = description)
 
         assertTrue(cardRepository.existsById(id))
     }
@@ -60,8 +59,9 @@ class RestApiTest {
     fun testGetCollection() {
         val id = "foo"
         val name = "hei"
-        cardService.createNewCard(id, name)
-        cardService.createNewCard(name, id)
+        val description = "Testing a mania card"
+        cardService.createNewCard(id, name, description)
+        cardService.createNewCard(name, id, description)
         assertTrue(cardRepository.existsById(id))
         assertTrue(cardRepository.existsById(name))
 

@@ -15,5 +15,8 @@ class GameDto(
         var name: String? = null,
 
         @ApiModelProperty("A Description of the quest")
-        var description: String? = null
+        var description: String? = null,
+
+        @ApiModelProperty("A value of the card")
+        var value: Int? = 0
 )

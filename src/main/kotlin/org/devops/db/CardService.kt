@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import javax.persistence.LockModeType
+import kotlin.random.Random
 
 @Repository
 interface CardRepository : CrudRepository<Cards, String> {
@@ -37,13 +38,14 @@ class CardService(
         return card
     }
 
-    fun createNewCard(id: String, name: String) : Boolean{
+    fun createNewCard(id: String, name: String, description: String) : Boolean{
         if(cardRepository.existsById(id)){
             return false
         }
 
+        val randomValue = Random.nextInt(0, 100);
 
-        val card = Cards(id = id, name = name)
+        val card = Cards(id = id, name = name, description = description, value = randomValue)
 
         cardRepository.save(card)
         return true

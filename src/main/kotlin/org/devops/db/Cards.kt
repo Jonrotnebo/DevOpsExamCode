@@ -11,7 +11,10 @@ class Cards (
     @get:NotNull
     var id: String? = null,
 
-    var name: String? = null
+    var name: String? = null,
 
-    //var description: String? = null
+    var description: String? = null,
+
+    var value: Int? = 0
+
 )
