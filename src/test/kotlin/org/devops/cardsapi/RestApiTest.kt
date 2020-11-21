@@ -5,6 +5,7 @@ import io.restassured.RestAssured.given
 import org.devops.Application
 import org.devops.db.CardRepository
 import org.devops.db.CardService
+import org.hamcrest.Matchers
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
@@ -30,6 +31,7 @@ class RestApiTest {
     fun init(){
         RestAssured.baseURI = "http://localhost"
         RestAssured.port = port
+        RestAssured.basePath="/cards/collection"
         RestAssured.enableLoggingOfRequestAndResponseIfValidationFails()
     }
 
@@ -45,55 +47,27 @@ class RestApiTest {
     }
 
     @Test
-    fun testCreateUser() {
-        val id = "foo"
-        val name = "hei"
-
-/*
-        given().post()"/api").
-                basic(id, "123")
-                .put("/$id")
-                .then()
-                .statusCode(201)
-*/
-
-        assertTrue(cardService.createNewCard(id,name))
-        assertTrue(cardRepository.existsById(id))
-    }
-
-    /*
-    @Test
-    fun testGetUser(){
-
+    fun testCreateCard() {
         val id = "foo"
         val name = "hei"
         cardService.createNewCard(id, name)
 
-        given().auth().basic(id, "123")
-                .get("/$id")
-                .then()
-                .statusCode(200)
+        assertTrue(cardRepository.existsById(id))
     }
-
-     */
-/*
-    @Test
-    fun testGetCollection() {
-        given().get("/api/cards/collection_$LATEST")
-                .then()
-                .statusCode(200)
-                .body("data.cards.size", Matchers.greaterThan(10))
-    }
-
 
 
     @Test
-    fun testGetCollectionOldVersion() {
-        given().get("/api/cards/collection_v0_002")
+    fun testGetCollection() {
+        val id = "foo"
+        val name = "hei"
+        cardService.createNewCard(id, name)
+        cardService.createNewCard(name, id)
+        assertTrue(cardRepository.existsById(id))
+        assertTrue(cardRepository.existsById(name))
+
+        given().get()
                 .then()
                 .statusCode(200)
-                .body("data.cards.size", Matchers.greaterThan(10))
-    }
 
- */
+    }
 }

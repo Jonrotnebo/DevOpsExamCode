@@ -1,4 +1,7 @@
 #Card Application
+
+
+
 ### 1. Installer gcloud og sett dette opp.
 
 ### Step 2:
