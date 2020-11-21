@@ -98,6 +98,7 @@ Push til git og se bygget fullføre.
       
 - Dataen benytter seg av en h2 database, den bruker ikke Postgres eller liknende da 
 dette ikke er nævendig for en så liten applikasjon.
+- Applikasjonen har ingen eksisterende data, denne må legges inn selv det å sende data til endepunktet: ``/cards/collection``
 - Dataen fra metrics blir sendt ut til logz io, men kan også konfigureres lokalt på maskinen med grafana.
     - For å kjøre dette lokalt, uten om localApplicationRunner må en sette inn egne verdier for logz-token og url,
      se infrastructur repo for hvordan dette kan gjøres.
