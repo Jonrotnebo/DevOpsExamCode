@@ -101,7 +101,8 @@ dette ikke er nævendig for en så liten applikasjon.
 - Applikasjonen har ingen eksisterende data, denne må legges inn selv det å sende og hente data på endepunktet:
 ``/cards/collection`` med post og get.
     - Post meldingene må inneholde id, navn og description.
-- Dataen fra metrics blir sendt ut til logz io, men kan også konfigureres lokalt på maskinen med grafana.
+    - Det er også en get funksjon på endepunktet cards/<cardid\>
+- Now av dataen fra metrics blir sendt ut til logz io, men det er også konfigureres for å logge lokalt til grafana.
     - For å kjøre dette lokalt, uten om localApplicationRunner må en sette inn egne verdier for logz-token og url,
      se infrastructur repo for hvordan dette kan gjøres.
 - Logz Io kompatiblitet er vedlagt, denne må bruker konfigurere selv, se Infrastruktur for hvordan dette gjøres.

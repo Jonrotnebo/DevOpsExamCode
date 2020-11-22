@@ -30,7 +30,7 @@ class RestAPICards(
 
     private val createCounter = Counter.builder("count.create").description("Cards created").register(meterRegistry)
     private val getCounter = Counter.builder("count.get").description("get calls").register(meterRegistry)
-    private val getTimerCards = Timer.builder("long.get.timer").description("Record Time of get function").tag("us", "listCards").register(meterRegistry)
+    private val getTimerCards = Timer.builder("listCards").description("Record Time of get function").tag("us", "listCards").register(meterRegistry)
     private val createTimerCards = Timer.builder("long.get.timer").description("Record Time of create function").tag("us", "createCard").register(meterRegistry)
 
     //Not in use.
@@ -41,6 +41,7 @@ class RestAPICards(
 
     @Autowired
     private lateinit var cardService: CardService
+
 
 
     @ApiOperation("Return info on all cards in the game")
@@ -55,7 +56,6 @@ class RestAPICards(
         logger.info("ListCards{} called. Returning cards. Returning: ${collection.count()} Cards")
 
         logger.info("Number of calls to get. ${getCounter.count()}")
-        logger.info("Timed used to get cards: ${getTimerCards.mean(TimeUnit.SECONDS)}")
         return ResponseEntity.status(200).body(collection.toList())
     }
 
@@ -78,10 +78,25 @@ class RestAPICards(
         } else{
             createCounter.increment()
             logger.debug("Created monster after create: ${createCounter.count()} Creation calls")
-            logger.info("Create Card Sucsess. ${createTimerCards.mean(TimeUnit.SECONDS)}")
             return ResponseEntity.status(201).build()
         }
 
+    }
+
+    @ApiOperation("Get the info of a spesific user")
+    @GetMapping(path = ["/{cardId}"])
+    fun getCard(
+            @PathVariable("cardId") cardId: String
+    ) : ResponseEntity<Cards>{
+        val card = cardService.findByIdEager(cardId)
+
+        if (card == null) {
+            logger.info("Card $cardId did not exist")
+            return ResponseEntity.status(400).build()
+        }
+
+        logger.info("card find by id returned.")
+        return ResponseEntity.status(200).body(card)
     }
 
 

@@ -29,7 +29,7 @@ class RestApiTest {
     fun init(){
         RestAssured.baseURI = "http://localhost"
         RestAssured.port = port
-        RestAssured.basePath="/cards/collection"
+        RestAssured.basePath="/cards"
         RestAssured.enableLoggingOfRequestAndResponseIfValidationFails()
     }
 
@@ -54,6 +54,20 @@ class RestApiTest {
         assertTrue(cardRepository.existsById(id))
     }
 
+    @Test
+    fun getCardId(){
+        val id = "foo"
+        val name = "hei"
+        val description = "Testing a mania card"
+        cardService.createNewCard(id,name,description)
+        assertTrue(cardRepository.existsById(id))
+
+        given().get("/$id")
+                .then()
+                .statusCode(200)
+
+    }
+
 
     @Test
     fun testGetCollection() {
@@ -65,7 +79,7 @@ class RestApiTest {
         assertTrue(cardRepository.existsById(id))
         assertTrue(cardRepository.existsById(name))
 
-        given().get()
+        given().get("/collection")
                 .then()
                 .statusCode(200)
 

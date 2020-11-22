@@ -1,5 +1,7 @@
 package org.devops.db
 
+import org.devops.RestAPICards
+import org.slf4j.LoggerFactory
 import org.springframework.data.jpa.repository.Lock
 import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.CrudRepository
@@ -25,6 +27,8 @@ class CardService(
         private val cardRepository: CardRepository
 ) {
 
+    private val logger = LoggerFactory.getLogger(RestAPICards::class.java.name)
+
     fun getAll() : MutableIterable<Cards> {
 
         return cardRepository.findAll()
@@ -35,6 +39,10 @@ class CardService(
 
         val card = cardRepository.findById(id).orElse(null)
 
+        if (card == null){
+            logger.info("Card find by id does not exist.")
+        }
+
         return card
     }
 
@@ -44,6 +52,7 @@ class CardService(
         }
 
         val randomValue = Random.nextInt(0, 100);
+        logger.info("Card Value for card: $id, has value $randomValue")
 
         val card = Cards(id = id, name = name, description = description, value = randomValue)
 
